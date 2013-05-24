@@ -45,7 +45,6 @@ public class FTPFileStorage implements CloudFileStorage
 {
 	private static final Logger logger = Logger.getLogger(FTPFileStorage.class);
 	
-	private static String tempFolderPath;
 	private static String fileSeparator;
 	private String storageFolder;
 	
@@ -66,9 +65,7 @@ public class FTPFileStorage implements CloudFileStorage
 		String host = properties.getProperty("host");
 		int minimumPoolSize = Integer.parseInt(properties.getProperty("minimumPoolSize"));
 		int maximumPoolSize = Integer.parseInt(properties.getProperty("maximumPoolSize"));
-		
-		String tempFolderFullPath = properties.getProperty("tempFolderPath");
-		
+				
 		String hostPort = properties.getProperty("port");
 		
 		if(hostPort == null)
@@ -82,24 +79,6 @@ public class FTPFileStorage implements CloudFileStorage
 		}
 		
 		storageFolder = properties.getProperty("storagePath");
-		
-		if(tempFolderFullPath != null)
-		{
-			tempFolderPath = tempFolderFullPath;
-		}
-		
-		else
-		{
-		
-			URL url = Thread.currentThread().getContextClassLoader().getResource("hibernate.cfg.xml");
-			String path = url.getFile().replace("%20", " ");
-			File file = new File(path);
-			File parent = file.getParentFile();
-			parent = parent.getParentFile();
-			File tempFolder = new File(parent.getPath()+fileSeparator+"temp");
-			tempFolderPath = tempFolder.getPath();
-		
-		}
 		
 		if(port != null)
 		{
@@ -647,12 +626,14 @@ public class FTPFileStorage implements CloudFileStorage
 				{
 					if(file.getType() == FTPFile.TYPE_FILE)
 					{
-						
+						System.out.println("File from ftp "+file.getName());
 					}
 					
 					else if(file.getType() == FTPFile.TYPE_DIRECTORY)
 					{
 						//create new directory within the 
+						System.out.println("Directory from ftp "+file.getName());
+						
 					}
 				}
 			}
@@ -709,7 +690,7 @@ public class FTPFileStorage implements CloudFileStorage
 	@Supported
 	public File zipUpDirectory(String fullPath, String archiveName) throws IOException {
 		
-		// TODO Auto-generated method stub
+		
 		
 		//TODO get a directory from the temp file storage.
 		
