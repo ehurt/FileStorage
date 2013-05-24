@@ -11,6 +11,14 @@ import org.church.management.ftp.session.FTPSession;
 import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPFile;
 
+/**
+ * 
+ * @author Trae
+ *
+ * This class gives you a connection to the ftp server.
+ * Once the session is close, you cannot use it again.
+ *
+ */
 public class FTPSessionImpl implements FTPSession
 {
 	private static final Logger logger = Logger.getLogger(FTPSessionImpl.class);
