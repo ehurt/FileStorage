@@ -137,17 +137,17 @@ public class TemporaryFileFactory
 	
 	public static File createDirectory(String directoryName) throws Exception
 	{
-		File file = null;
+		File directory = null;
 		
 		try
 		{
-			File directory = new File(temporaryFolderPath, directoryName);
+			directory = new File(temporaryFolderPath, directoryName);
 			boolean check = directory.mkdir();
 			
 			if(check == false)
 			{
 				FileUtils.forceDelete(directory);
-				directory.createNewFile();
+				directory.mkdir();
 			}
 		}
 		catch(Exception e)
@@ -156,13 +156,32 @@ public class TemporaryFileFactory
 			throw e;
 		}
 		
-		return file;
+		return directory;
 	}
 	
-	public static File createDirectoryInDirectory(String directory, String name)
-	{
+	public static File createDirectoryInDirectory(String directoryPath, String name) throws Exception
+	{		
+		File directory = null;
 		
-		return null;
+		try
+		{
+			directory = new File(directoryPath, name);
+			boolean check = directory.mkdir();
+			
+			if(check == false)
+			{
+				FileUtils.forceDelete(directory);
+				directory.mkdir();
+			}
+			
+		}
+		catch(Exception e)
+		{
+			logger.error("TemporaryFileFactory.createDirectoryInDirectory()- Could not create directory: "+name+" in directory: "+directoryPath+".", e);
+			throw e;
+		}
+		
+		return directory;
 	}
 	
 	public static synchronized File createTempDirectory() throws Exception
@@ -244,7 +263,7 @@ public class TemporaryFileFactory
 			if(check == false)
 			{
 				FileUtils.forceDelete(file);
-				file.createNewFile();
+				file.mkdir();
 			}
 		}
 		catch(Exception e)
